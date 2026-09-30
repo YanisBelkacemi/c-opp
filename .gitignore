@@ -1,1 +1,18 @@
-.exe
+# Build files
+*.o
+*.exe
+*.out
+
+# Build directories
+build/
+bin/
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
