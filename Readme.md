@@ -48,7 +48,7 @@ void parent_hello(Class *self, void *args)
     printf("Hello parent");
 }
 
-add_method(parent, hello, "hello");
+add_method(parent_hello, hello, "hello");
 ```
 
 Calling it:
