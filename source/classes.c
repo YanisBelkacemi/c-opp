@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "../headers/classes.h"
 typedef struct Class Class;
 typedef struct Method Method ;
 typedef void (*MethodFn)(Class *self ,void *args);
