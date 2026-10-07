@@ -6,6 +6,11 @@ typedef struct Class Class;
 typedef struct Method Method ;
 typedef void (*MethodFn)(Class *self ,void *args);
 
+
+Class *Create_Class(char* name , Class* parent);
+void Destroy_class(Class *class);
+void call_method(Class *class , char* name, void *args);
+void add_method(Class *class , MethodFn function, char* name);
 struct Method {
 	char* name;
 	MethodFn function;
@@ -31,13 +36,13 @@ size_t hash(const char* name, size_t capacity){
 	return h % capacity;
 }
 
-Class Create_Class(char* name , Class* parent){
+Class *Create_Class(char* name , Class* parent){
 	//Basic class creation
-	Class class;
-	class.name = name;
-	class.capacity = 16;
-	class.bucket = calloc(class.capacity,sizeof(Method *));
-	class.parent = parent;
+	Class *class = malloc(sizeof(Class));
+	class->name = name;
+	class->capacity = 16;
+	class->bucket = calloc(class->capacity,sizeof(Method *));
+	class->parent = parent;
 	return class;
 }
 //this one needs a for loop to destroy each method inside the bucket class
@@ -51,6 +56,7 @@ void Destroy_class(Class *class){
 		}
 	}
 	free(class->bucket);
+	free(class);
 }
 
 void add_method(Class *class , MethodFn function, char* name){
@@ -83,26 +89,4 @@ void call_method(Class *class , char* name, void *args){
 }
 
 
-void parent_hello(Class *self, void *args) {
-    printf("Parent hello\n");
-}
 
-void child_hello(Class *self, void *args) {
-    printf("Child hello\n");
-}
-
-int main() {
-    Class parent = Create_Class("Parent", NULL);
-    Class child = Create_Class("Child", &parent);
-
-    add_method(&parent, parent_hello, "hello");
-
-    call_method(&child, "hello", NULL);
-
-    add_method(&child, child_hello, "hello");
-
-    call_method(&child, "hello", NULL);
-
-    Destroy_class(&child);
-    Destroy_class(&parent);
-}
